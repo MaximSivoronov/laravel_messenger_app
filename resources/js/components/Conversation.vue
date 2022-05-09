@@ -1,12 +1,34 @@
 <template>
-    <div>
-        <h1>Consersation</h1>
+    <div class="conversation">
+        <h1>{{ contact ? contact.name : 'Select A Contact' }}</h1>
+        <MessagesFeed :contact="contact" :messages="messages"/>
+        <MessageComposer @send="sendMessage"/>
     </div>
 </template>
 
 <script>
+import MessagesFeed from './MessagesFeed';
+import MessageComposer from './MessageComposer';
+
 export default {
-    name: "Conversation"
+    name: "Conversation",
+
+    props: {
+        contact: {
+            type: Object,
+            default: null,
+        },
+        messages: {
+            type: Array,
+            default: [],
+        }
+    },
+
+    methods: {
+        sendMessage(text) {
+            console.log(text);
+        }
+    },
 }
 </script>
 
