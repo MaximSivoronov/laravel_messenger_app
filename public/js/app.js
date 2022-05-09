@@ -5384,12 +5384,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContactsList",
+  data: function data() {
+    return {
+      selected: 0
+    };
+  },
   props: {
     contacts: {
       type: Array,
       "default": []
+    }
+  },
+  methods: {
+    selectContact: function selectContact(index, contact) {
+      this.selected = index;
+      this.$emit('selected', contact);
     }
   }
 });
@@ -5474,7 +5489,9 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.$emit('send', this.message);
+      this.$emit('send', this.message); // Clear textarea
+
+      this.message = '';
     }
   }
 });
@@ -5496,8 +5513,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "MessagesFeed"
+  name: "MessagesFeed",
+  props: {
+    contact: {
+      type: Object
+    },
+    messages: {
+      type: Array,
+      "default": null
+    }
+  }
 });
 
 /***/ }),
@@ -28441,19 +28475,33 @@ var render = function () {
     _c(
       "ul",
       _vm._l(_vm.contacts, function (contact) {
-        return _c("li", { key: "contact.id" }, [
-          _c("div", { staticClass: "avatar" }, [
-            _c("img", {
-              attrs: { src: contact.profile_image, alt: contact.name },
-            }),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "contact" }, [
-            _c("p", { staticClass: "name" }, [_vm._v(_vm._s(contact.name))]),
+        return _c(
+          "li",
+          {
+            key: "contact.id",
+            class: { selected: _vm.index === _vm.selected },
+            on: {
+              click: function ($event) {
+                return _vm.selectContact(_vm.index, contact)
+              },
+            },
+          },
+          [
+            _c("div", { staticClass: "avatar" }, [
+              _c("img", {
+                attrs: { src: contact.profile_image, alt: contact.name },
+              }),
+            ]),
             _vm._v(" "),
-            _c("p", { staticClass: "email" }, [_vm._v(_vm._s(contact.email))]),
-          ]),
-        ])
+            _c("div", { staticClass: "contact" }, [
+              _c("p", { staticClass: "name" }, [_vm._v(_vm._s(contact.name))]),
+              _vm._v(" "),
+              _c("p", { staticClass: "email" }, [
+                _vm._v(_vm._s(contact.email)),
+              ]),
+            ]),
+          ]
+        )
       }),
       0
     ),
@@ -28577,7 +28625,34 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "feed" }, [
+    _vm.contact
+      ? _c(
+          "ul",
+          _vm._l(_vm.messages, function (message) {
+            return _c(
+              "li",
+              {
+                key: message.id,
+                class:
+                  "message" +
+                  (message.to === _vm.contact.id ? "sent" : "received"),
+              },
+              [
+                _c("div", { staticClass: "text" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(message.text) +
+                      "\n            "
+                  ),
+                ]),
+              ]
+            )
+          }),
+          0
+        )
+      : _vm._e(),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
