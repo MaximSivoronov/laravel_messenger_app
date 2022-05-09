@@ -21,12 +21,26 @@ export default {
         messages: {
             type: Array,
             default: [],
+        },
+        user_id: {
+            type: Number,
+            require: true,
         }
     },
 
     methods: {
         sendMessage(text) {
-            console.log(text);
+            if (!this.contact) {
+                return;
+            }
+
+            axios.post(`api/conversation/send`, {
+                user_id: this.user_id,
+                contact_id: this.contact.id,
+                message_text: text,
+            }).then((response) => {
+                this.$emit('new', response.data);
+            });
         }
     },
 
@@ -38,17 +52,17 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .conversation {
-        flex: 5;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
+.conversation {
+    flex: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-        h1 {
-            font-size: 20px;
-            padding: 10px;
-            margin: 0;
-            border-bottom: 1px dashed lightgray;
-        }
+    h1 {
+        font-size: 20px;
+        padding: 10px;
+        margin: 0;
+        border-bottom: 1px dashed lightgray;
     }
+}
 </style>

@@ -20,3 +20,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::get('/contacts', [\App\Http\Controllers\Api\Contact\ContactController::class, 'getContacts']);
 Route::get('/conversation/{id}', [\App\Http\Controllers\Api\Contact\ContactController::class, 'getMessagesFor']);
+Route::post('/conversation/send', [\App\Http\Controllers\Api\Contact\ContactController::class, 'sendMessage']);
+

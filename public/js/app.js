@@ -5387,7 +5387,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContactsList",
   data: function data() {
@@ -5444,11 +5443,27 @@ __webpack_require__.r(__webpack_exports__);
     messages: {
       type: Array,
       "default": []
+    },
+    user_id: {
+      type: Number,
+      require: true
     }
   },
   methods: {
     sendMessage: function sendMessage(text) {
-      console.log(text);
+      var _this = this;
+
+      if (!this.contact) {
+        return;
+      }
+
+      axios.post("api/conversation/send", {
+        user_id: this.user_id,
+        contact_id: this.contact.id,
+        message_text: text
+      }).then(function (response) {
+        _this.$emit('new', response.data);
+      });
     }
   },
   components: {
@@ -5484,7 +5499,9 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    send: function send() {
+    send: function send(e) {
+      e.preventDefault();
+
       if (this.message === '') {
         return;
       }
@@ -5531,6 +5548,23 @@ __webpack_require__.r(__webpack_exports__);
     messages: {
       type: Array,
       "default": null
+    }
+  },
+  methods: {
+    scrollToBottom: function scrollToBottom() {
+      var _this = this;
+
+      setTimeout(function () {
+        _this.$refs.feed.scrollTop = _this.$refs.feed.scrollHeight - _this.$refs.feed.clientHeight;
+      }, 50);
+    }
+  },
+  watch: {
+    contact: function contact(_contact) {
+      this.scrollToBottom();
+    },
+    messages: function messages(_messages) {
+      this.scrollToBottom();
     }
   }
 });
@@ -5589,6 +5623,9 @@ __webpack_require__.r(__webpack_exports__);
         _this2.messages = response.data;
         _this2.selectedContact = contact;
       });
+    },
+    saveNewMessage: function saveNewMessage(message) {
+      this.messages.push(message);
     }
   },
   components: {
@@ -29188,7 +29225,6 @@ var render = function () {
         return _c(
           "li",
           {
-            key: "contact.id",
             class: { selected: index === _vm.selected },
             on: {
               click: function ($event) {
@@ -29335,7 +29371,7 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "feed" }, [
+  return _c("div", { ref: "feed", staticClass: "feed" }, [
     _vm.contact
       ? _c(
           "ul",
@@ -29392,7 +29428,12 @@ var render = function () {
     { staticClass: "chat-app" },
     [
       _c("Conversation", {
-        attrs: { contact: _vm.selectedContact, messages: _vm.messages },
+        attrs: {
+          contact: _vm.selectedContact,
+          messages: _vm.messages,
+          user_id: _vm.user.id,
+        },
+        on: { new: _vm.saveNewMessage },
       }),
       _vm._v(" "),
       _c("ContactsList", {

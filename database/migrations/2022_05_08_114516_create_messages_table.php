@@ -18,7 +18,7 @@ return new class extends Migration
             $table->unsignedInteger('from');
             $table->unsignedInteger('to');
             $table->text('content');
-            $table->timestamps();
+            $table->nullableTimestamps();
         });
     }
 
