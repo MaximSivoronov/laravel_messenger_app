@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Api\Contact\IndexController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,4 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('/contacts', [IndexController::class, '__invoke']);
+Route::get('/contacts', [\App\Http\Controllers\Api\Contact\ContactController::class, 'getContacts']);
+Route::get('/conversation/{id}', [\App\Http\Controllers\Api\Contact\ContactController::class, 'getMessagesFor']);

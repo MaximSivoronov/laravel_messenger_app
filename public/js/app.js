@@ -5577,9 +5577,18 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     axios.get('/api/contacts').then(function (response) {
-      console.log(response.data);
       _this.contacts = response.data;
     });
+  },
+  methods: {
+    startConversationWith: function startConversationWith(contact) {
+      var _this2 = this;
+
+      axios.get("/api/conversation/".concat(contact.id)).then(function (response) {
+        _this2.messages = response.data;
+        _this2.selectedContact = contact;
+      });
+    }
   },
   components: {
     Conversation: _Conversation__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -28474,15 +28483,15 @@ var render = function () {
   return _c("div", { staticClass: "contacts-list" }, [
     _c(
       "ul",
-      _vm._l(_vm.contacts, function (contact) {
+      _vm._l(_vm.contacts, function (contact, index) {
         return _c(
           "li",
           {
             key: "contact.id",
-            class: { selected: _vm.index === _vm.selected },
+            class: { selected: index === _vm.selected },
             on: {
               click: function ($event) {
-                return _vm.selectContact(_vm.index, contact)
+                return _vm.selectContact(index, contact)
               },
             },
           },
@@ -28685,7 +28694,10 @@ var render = function () {
         attrs: { contact: _vm.selectedContact, messages: _vm.messages },
       }),
       _vm._v(" "),
-      _c("ContactsList", { attrs: { contacts: _vm.contacts } }),
+      _c("ContactsList", {
+        attrs: { contacts: _vm.contacts },
+        on: { selected: _vm.startConversationWith },
+      }),
     ],
     1
   )
