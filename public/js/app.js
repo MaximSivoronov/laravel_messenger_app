@@ -5435,6 +5435,10 @@ __webpack_require__.r(__webpack_exports__);
     sendMessage: function sendMessage(text) {
       console.log(text);
     }
+  },
+  components: {
+    MessagesFeed: _MessagesFeed__WEBPACK_IMPORTED_MODULE_0__["default"],
+    MessageComposer: _MessageComposer__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -5455,8 +5459,24 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "MessageComposer"
+  name: "MessageComposer",
+  data: function data() {
+    return {
+      message: ''
+    };
+  },
+  methods: {
+    send: function send() {
+      if (this.message === '') {
+        return;
+      }
+
+      this.$emit('send', this.message);
+    }
+  }
 });
 
 /***/ }),
@@ -28502,7 +28522,37 @@ var render = function () {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div")
+  return _c("div", { staticClass: "composer" }, [
+    _c("textarea", {
+      directives: [
+        {
+          name: "model",
+          rawName: "v-model",
+          value: _vm.message,
+          expression: "message",
+        },
+      ],
+      attrs: { placeholder: "Enter your message.." },
+      domProps: { value: _vm.message },
+      on: {
+        keydown: function ($event) {
+          if (
+            !$event.type.indexOf("key") &&
+            _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+          ) {
+            return null
+          }
+          return _vm.send.apply(null, arguments)
+        },
+        input: function ($event) {
+          if ($event.target.composing) {
+            return
+          }
+          _vm.message = $event.target.value
+        },
+      },
+    }),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
