@@ -37,6 +37,18 @@ export default {
 }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+    .conversation {
+        flex: 5;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
 
+        h1 {
+            font-size: 20px;
+            padding: 10px;
+            margin: 0;
+            border-bottom: 1px dashed lightgray;
+        }
+    }
 </style>

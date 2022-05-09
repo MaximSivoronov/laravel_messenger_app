@@ -24,7 +24,7 @@ class MessageFactory extends Factory
         return [
             'from' => $from,
             'to' => $to,
-            'content' => $this->faker->text(),
+            'content' => $this->faker->text(40),
         ];
     }
 }
