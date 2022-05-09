@@ -29,6 +29,11 @@ export default {
             console.log(text);
         }
     },
+
+    components: {
+        MessagesFeed,
+        MessageComposer,
+    }
 }
 </script>
 
