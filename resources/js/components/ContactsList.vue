@@ -12,6 +12,7 @@
                     <p class="name">{{ contact.name }}</p>
                     <p class="email">{{ contact.email }}</p>
                 </div>
+                <span class="unread" v-if="contact.unread">{{ contact.unread }}</span>
             </li>
         </ul>
     </div>
@@ -49,6 +50,7 @@ export default {
         max-height: 600px;
         overflow: scroll;
         border-left: 1px solid #a6a6a6;
+        min-width: 290px;
 
         ul {
             list-style-type: none;
@@ -64,6 +66,23 @@ export default {
 
                 &.selected {
                     background: #dfdfdf;
+                }
+
+                span.unread {
+                    position: absolute;
+                    right: 33px;
+                    top: 34px;
+                    display: flex;
+                    font-weight: 800;
+                    min-width: 20px;
+                    justify-content: center;
+                    align-items: center;
+                    line-height: 20px;
+                    font-size: 12px;
+                    padding: 0 4px;
+                    border-radius: 50%;
+                    background-color: #40a6e2;
+                    color: #f7f9fb;
                 }
 
                 .avatar {
