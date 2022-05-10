@@ -1,9 +1,9 @@
 <template>
     <div class="contacts-list">
         <ul>
-            <li v-for="(contact, index) in sortedContacts"
-                @click="selectContact(index, contact)"
-                :class="{ 'selected': index === selected}"
+            <li v-for="contact in sortedContacts"
+                @click="selectContact(contact)"
+                :class="{ 'selected': contact === selected}"
             >
                 <div class="avatar">
                     <img :src="contact.profile_image" :alt="contact.name">
@@ -24,7 +24,7 @@ export default {
 
     data() {
         return {
-            selected: 0,
+            selected: this.contacts.length ? this.contacts[0] : null,
         }
     },
 
@@ -36,8 +36,8 @@ export default {
     },
 
     methods: {
-        selectContact(index, contact) {
-            this.selected = index;
+        selectContact(contact) {
+            this.selected = contact;
             this.$emit('selected', contact);
         }
     },
@@ -45,6 +45,9 @@ export default {
     computed: {
         sortedContacts() {
             return _.sortBy(this.contacts, [(contact) => {
+                if(contact === this.selected) {
+                    return Infinity;
+                }
                 return contact.unread;
             }]).reverse();
         }

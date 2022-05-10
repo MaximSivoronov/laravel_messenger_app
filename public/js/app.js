@@ -5392,7 +5392,7 @@ __webpack_require__.r(__webpack_exports__);
   name: "ContactsList",
   data: function data() {
     return {
-      selected: 0
+      selected: this.contacts.length ? this.contacts[0] : null
     };
   },
   props: {
@@ -5402,14 +5402,20 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
-    selectContact: function selectContact(index, contact) {
-      this.selected = index;
+    selectContact: function selectContact(contact) {
+      this.selected = contact;
       this.$emit('selected', contact);
     }
   },
   computed: {
     sortedContacts: function sortedContacts() {
+      var _this = this;
+
       return _.sortBy(this.contacts, [function (contact) {
+        if (contact === _this.selected) {
+          return Infinity;
+        }
+
         return contact.unread;
       }]).reverse();
     }
@@ -35649,14 +35655,14 @@ var render = function () {
   return _c("div", { staticClass: "contacts-list" }, [
     _c(
       "ul",
-      _vm._l(_vm.sortedContacts, function (contact, index) {
+      _vm._l(_vm.sortedContacts, function (contact) {
         return _c(
           "li",
           {
-            class: { selected: index === _vm.selected },
+            class: { selected: contact === _vm.selected },
             on: {
               click: function ($event) {
-                return _vm.selectContact(index, contact)
+                return _vm.selectContact(contact)
               },
             },
           },
