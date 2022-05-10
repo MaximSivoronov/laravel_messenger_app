@@ -1,7 +1,7 @@
 <template>
     <div class="contacts-list">
         <ul>
-            <li v-for="(contact, index) in contacts"
+            <li v-for="(contact, index) in sortedContacts"
                 @click="selectContact(index, contact)"
                 :class="{ 'selected': index === selected}"
             >
@@ -41,6 +41,14 @@ export default {
             this.$emit('selected', contact);
         }
     },
+
+    computed: {
+        sortedContacts() {
+            return _.sortBy(this.contacts, [(contact) => {
+                return contact.unread;
+            }]).reverse();
+        }
+    }
 }
 </script>
 

@@ -5406,6 +5406,13 @@ __webpack_require__.r(__webpack_exports__);
       this.selected = index;
       this.$emit('selected', contact);
     }
+  },
+  computed: {
+    sortedContacts: function sortedContacts() {
+      return _.sortBy(this.contacts, [function (contact) {
+        return contact.unread;
+      }]).reverse();
+    }
   }
 });
 
@@ -35642,7 +35649,7 @@ var render = function () {
   return _c("div", { staticClass: "contacts-list" }, [
     _c(
       "ul",
-      _vm._l(_vm.contacts, function (contact, index) {
+      _vm._l(_vm.sortedContacts, function (contact, index) {
         return _c(
           "li",
           {
