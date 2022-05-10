@@ -22,6 +22,6 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/contacts', [\App\Http\Controllers\Api\Contact\ContactController::class, 'getContacts']);
+Route::get('/conversation/{id}', [\App\Http\Controllers\Api\Contact\ContactController::class, 'getMessagesFor']);
+Route::post('/conversation/send', [\App\Http\Controllers\Api\Contact\ContactController::class, 'sendMessage']);

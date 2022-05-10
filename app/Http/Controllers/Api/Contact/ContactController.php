@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Contact;
 
+use App\Events\NewMessage;
 use App\Http\Controllers\Controller;
 use App\Models\Message;
 use App\Models\User;
@@ -11,7 +12,7 @@ class ContactController extends Controller
 {
     public function getContacts()
     {
-        $users = User::all();
+        $users = User::where('id', '!=', auth()->id())->get();
         return response()->json($users);
     }
 
@@ -24,10 +25,12 @@ class ContactController extends Controller
     public function sendMessage(Request $request)
     {
         $newMessage = Message::create([
-            'from' => $request->user_id,
+            'from' => auth()->id(),
             'to' => $request->contact_id,
             'content' => $request->message_text,
         ]);
+
+        broadcast(new NewMessage($newMessage));
 
         return response()->json($newMessage);
     }

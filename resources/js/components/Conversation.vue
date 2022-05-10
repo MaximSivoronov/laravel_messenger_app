@@ -34,7 +34,7 @@ export default {
                 return;
             }
 
-            axios.post(`api/conversation/send`, {
+            axios.post(`/conversation/send`, {
                 user_id: this.user_id,
                 contact_id: this.contact.id,
                 message_text: text,
