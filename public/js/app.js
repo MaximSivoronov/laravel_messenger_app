@@ -5388,6 +5388,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "ContactsList",
   data: function data() {
@@ -5636,6 +5637,7 @@ __webpack_require__.r(__webpack_exports__);
     startConversationWith: function startConversationWith(contact) {
       var _this2 = this;
 
+      this.updateUnreadCount(contact, true);
       axios.get("/conversation/".concat(contact.id)).then(function (response) {
         _this2.messages = response.data;
         _this2.selectedContact = contact;
@@ -5650,7 +5652,17 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      alert(message.content);
+      this.updateUnreadCount(contact, false);
+    },
+    updateUnreadCount: function updateUnreadCount(contact, reset) {
+      this.contacts = this.contacts.map(function (single) {
+        if (single.id !== contact.id) {
+          return single;
+        }
+
+        if (reset) single.unread = 0;else single.unread += 1;
+        return single;
+      });
     }
   },
   components: {
@@ -35659,6 +35671,7 @@ var render = function () {
         return _c(
           "li",
           {
+            key: contact.id,
             class: { selected: contact === _vm.selected },
             on: {
               click: function ($event) {
