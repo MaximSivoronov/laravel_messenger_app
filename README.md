@@ -40,6 +40,7 @@
 2. Using command line run `composer install`.
 3. Then run `npm i` or `npm install`.
 4. Create `.env` file and copy inside all from `.env.example` file.
-5. Set up your database (in my case it was sqlite), and run `php artisan migrate`.
-6. Add new entries for users and messages tables manually, or use `php artisan db:seed` command (you also can change count of users and messages in `Database\Seeders\DatabaseSeeder.php` file).
-7. Run `php artisan serve` and `npm run dev` or `npm run watch`.
+5. In `.env` file set your pusher app data (ID, KEY, SECRET, CLUSTER).
+6. Set up your database (in my case it was sqlite), and run `php artisan migrate`.
+7. Add new entries for users and messages tables manually, or use `php artisan db:seed` command (you also can change count of users and messages in `Database\Seeders\DatabaseSeeder.php` file).
+8. Run `php artisan serve` and `npm run dev` or `npm run watch`.
