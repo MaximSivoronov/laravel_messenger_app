@@ -5409,10 +5409,12 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {
+    // Sorting contacts by count of unread messages.
     sortedContacts: function sortedContacts() {
       var _this = this;
 
       return _.sortBy(this.contacts, [function (contact) {
+        // If this contact selected, he will be on the top.
         if (contact === _this.selected) {
           return Infinity;
         }

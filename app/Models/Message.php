@@ -12,6 +12,11 @@ class Message extends Model
     protected $guarded = false;
     protected $table = 'messages';
 
+    /**
+     * Returns the user that send this message.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
     public function fromContact()
     {
         return $this->hasOne(User::class, 'id', 'from');

@@ -34,6 +34,7 @@ class NewMessage implements ShouldBroadcast
      */
     public function broadcastOn()
     {
+        // For each contact we set his own private channel, like messages.2 or messages.15
         return new PrivateChannel('messages.' . $this->message->to);
     }
 

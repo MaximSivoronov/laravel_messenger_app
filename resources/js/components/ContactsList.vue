@@ -44,8 +44,10 @@ export default {
     },
 
     computed: {
+        // Sorting contacts by count of unread messages.
         sortedContacts() {
             return _.sortBy(this.contacts, [(contact) => {
+                // If this contact selected, he will be on the top.
                 if (contact === this.selected) {
                     return Infinity;
                 }
