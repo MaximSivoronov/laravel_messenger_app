@@ -5652,7 +5652,7 @@ __webpack_require__.r(__webpack_exports__);
         return;
       }
 
-      this.updateUnreadCount(contact, false);
+      this.updateUnreadCount(message.from_contact, false);
     },
     updateUnreadCount: function updateUnreadCount(contact, reset) {
       this.contacts = this.contacts.map(function (single) {

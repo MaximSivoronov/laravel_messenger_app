@@ -58,7 +58,7 @@ export default {
                 return;
             }
 
-            this.updateUnreadCount(contact, false);
+            this.updateUnreadCount(message.from_contact, false);
         },
 
         updateUnreadCount(contact, reset) {

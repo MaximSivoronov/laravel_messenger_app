@@ -11,4 +11,9 @@ class Message extends Model
 
     protected $guarded = false;
     protected $table = 'messages';
+
+    public function fromContact()
+    {
+        return $this->hasOne(User::class, 'id', 'from');
+    }
 }
